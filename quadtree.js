@@ -116,7 +116,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
      * @memberof Quadtree
      */
     Quadtree.prototype.getIndex = function(pRect) {
-        
+        // 原理 图1
         var indexes = [],
             verticalMidpoint    = this.bounds.x + (this.bounds.width/2),
             horizontalMidpoint  = this.bounds.y + (this.bounds.height/2);    
@@ -125,7 +125,9 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
             startIsWest  = pRect.x < verticalMidpoint,
             endIsEast    = pRect.x + pRect.width > verticalMidpoint,
             endIsSouth   = pRect.y + pRect.height > horizontalMidpoint;    
-
+        
+        // 1 0
+        // 2 3
         //top-right quad
         if(startIsNorth && endIsEast) {
             indexes.push(0);

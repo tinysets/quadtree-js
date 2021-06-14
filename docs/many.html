@@ -135,7 +135,7 @@ function loop() {
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.21.0/prism.min.js" integrity="sha512-WkVkkoB31AoI9DAk6SEEEyacH9etQXKUov4JRRuM1Y681VsTq7jYgrRw06cbP6Io7kPsKx+tLFpH/HXZSZ2YEQ==" crossorigin="anonymous"></script>
 
 		<!-- quadtree lib and script -->
-		<script src="https://cdn.jsdelivr.net/npm/@timohausmann/quadtree-js/quadtree.min.js"></script>
+		<script src="../quadtree.js"></script>
 		<script>		
 		
 		(function(w) {
@@ -293,28 +293,28 @@ function loop() {
 						myCandidate.check = true;
 
 						//Perform X Push
-						if(intersect.pushX < intersect.pushY) {
+						if(intersect.pushX < intersect.pushY) { //选择移动距离小的
 
 							if(intersect.dirX < 0) {
-								myObject.x = myCandidate.x - myObject.width;
+								myObject.x = myCandidate.x - myObject.width; // 靠左
 							} else if(intersect.dirX > 0) {
-								myObject.x = myCandidate.x + myCandidate.width;
+								myObject.x = myCandidate.x + myCandidate.width; // 靠右
 							}
 							
 							//reverse X trajectory (bounce)
-							myObject.vx *= -1;
+							myObject.vx *= -1; // 回弹
 						
 						//Perform Y Push
 						} else {
 
 							if(intersect.dirY < 0) {
-								myObject.y = myCandidate.y - myObject.height;
+								myObject.y = myCandidate.y - myObject.height; // 靠上
 							} else if(intersect.dirY > 0) {
-								myObject.y = myCandidate.y + myCandidate.height;
+								myObject.y = myCandidate.y + myCandidate.height; // 靠下
 							}
 							
 							//reverse Y trajectory (bounce)
-							myObject.vy *= -1;
+							myObject.vy *= -1; // 回弹
 						}
 					}
 				}
@@ -334,7 +334,7 @@ function loop() {
 
 
 			function getIntersection(r1, r2) {
-
+				// 原理 图2、图3
 				var r1w = r1.width/2,
 					r1h = r1.height/2,
 					r2w = r2.width/2,
@@ -342,13 +342,19 @@ function loop() {
 
 				var distX = (r1.x + r1w) - (r2.x + r2w);
 				var distY = (r1.y + r1h) - (r2.y + r2h);
-
+				// 根据两个矩形的中心点距离判断是否相交
+				//   		x
+				//   	----------->
+				//  	|
+				//    y |
+				//   	|
+				//  	↓
 				if(Math.abs(distX) < r1w + r2w && Math.abs(distY) < r1h + r2h) {
 					return {
 						pushX : (r1w  + r2w) - Math.abs(distX),
 						pushY : (r1h  + r2h) - Math.abs(distY),
-						dirX : distX === 0 ? 0 : distX < 0 ? -1 : 1,
-						dirY : distY === 0 ? 0 : distY < 0 ? -1 : 1
+						dirX : distX === 0 ? 0 : distX < 0 ? -1 : 1, // a 在 b 的左 dirX=-1
+						dirY : distY === 0 ? 0 : distY < 0 ? -1 : 1  // a 在 b 的上 dirY=-1
 					}
 				} else {
 					return false;
