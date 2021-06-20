@@ -67,6 +67,8 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
      * Split the node into 4 subnodes
      * @memberof Quadtree
      */
+    // 1 0
+    // 2 3
     Quadtree.prototype.split = function() {
         
         var nextLevel   = this.level + 1,
